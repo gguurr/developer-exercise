@@ -1,17 +1,22 @@
 package net.gameslabs.implem;
 
+import assignment.api.ItemType;
 import net.gameslabs.api.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PlayerImplem implements Player {
 
     private String id;
     private String name;
+    private List<ItemType> inventory;
 
     private PlayerImplem(String id, String name) {
         this.id = id;
         this.name = name;
+        inventory = new ArrayList<>();
     }
 
     @Override
@@ -23,6 +28,7 @@ public class PlayerImplem implements Player {
     public String getName() {
         return name;
     }
+
 
     @Override
     public boolean equals(Object o) {
