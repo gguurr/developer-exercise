@@ -1,12 +1,11 @@
 package assignment.model;
 
-import assignment.api.ItemType;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Inventory {
 
+    public final static int EMPTY_ITEM = 0;
     private Map<ItemType, Integer> items;
     public Inventory(){
         items = new HashMap<>();
@@ -16,10 +15,14 @@ public class Inventory {
     }
 
     public int getItemAmount(ItemType item) {
-        return items.getOrDefault(item, 0);
+        return items.getOrDefault(item, EMPTY_ITEM);
     }
 
     public void addItem(ItemType item, int amount) {
-        setItemAmount(item, getItemAmount(item) + amount);
+        int finalValue = getItemAmount(item) + amount;
+        if(finalValue < EMPTY_ITEM){
+            finalValue = EMPTY_ITEM;
+        }
+        setItemAmount(item, getItemAmount(item) + finalValue);
     }
 }

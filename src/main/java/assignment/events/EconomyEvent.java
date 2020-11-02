@@ -1,6 +1,5 @@
 package assignment.events;
 
-import assignment.api.ItemType;
 import net.gameslabs.api.Player;
 import net.gameslabs.api.PlayerEvent;
 

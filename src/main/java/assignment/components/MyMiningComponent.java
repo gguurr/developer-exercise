@@ -1,16 +1,13 @@
 package assignment.components;
 
-import assignment.api.ItemType;
 import assignment.events.GiveItemEvent;
 import assignment.events.MineEvent;
 import net.gameslabs.api.Component;
 import net.gameslabs.events.GetPlayerLevel;
 import net.gameslabs.events.GiveXpEvent;
-import net.gameslabs.model.Assignment;
 import net.gameslabs.model.Skill;
 
 public class MyMiningComponent extends Component {
-
 
     @Override
     public void onLoad() {
@@ -18,11 +15,12 @@ public class MyMiningComponent extends Component {
     }
 
     private void onMine(MineEvent event) {
-        GetPlayerLevel level = new GetPlayerLevel(event.getPlayer(), Skill.MINING);
-        send(level);
-        if (level.getLevel() > 5){
-            send(new GiveXpEvent(event.getPlayer(),Skill.MINING,15));
-            send(new GiveItemEvent(event.getPlayer(), ItemType.COAL,1));
+        GetPlayerLevel levelEvent = new GetPlayerLevel(event.getPlayer(), Skill.MINING);
+        send(levelEvent);
+
+        if (levelEvent.getLevel() > event.getOre().getMinLevel()){
+            send(new GiveXpEvent(event.getPlayer(),Skill.MINING,event.getOre().getXp()));
+            send(new GiveItemEvent(event.getPlayer(), event.getOre().getDrop(),event.getOre().getDropAmount()));
         }else {
             event.setCancelled(true);
         }

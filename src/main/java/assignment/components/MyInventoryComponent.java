@@ -1,14 +1,12 @@
 package assignment.components;
 
-import assignment.api.ItemType;
 import assignment.events.GetItemEvent;
 import assignment.events.GiveItemEvent;
+import assignment.events.HasItemEvent;
 import assignment.events.RemoveItemEvent;
 import assignment.model.Inventory;
 import net.gameslabs.api.Component;
-import net.gameslabs.api.Event;
 import net.gameslabs.api.Player;
-import net.gameslabs.model.PlayerStats;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +14,7 @@ import java.util.Map;
 public class MyInventoryComponent extends Component {
 
     private Map<Player, Inventory> persistence;
+
 
     public MyInventoryComponent() {
         persistence = new HashMap<>();
@@ -25,6 +24,11 @@ public class MyInventoryComponent extends Component {
         registerEvent(GiveItemEvent.class, this::onGiveItem);
         registerEvent(GetItemEvent.class, this::onGetItem);
         registerEvent(RemoveItemEvent.class, this::onRemoveItem);
+        registerEvent(HasItemEvent.class, this::onHasItem);
+    }
+
+    private void onHasItem(HasItemEvent event) {
+        event.setHaveAny(getInventory(event.getPlayer()).getItemAmount(event.getItem()) > Inventory.EMPTY_ITEM);
     }
 
     private void onRemoveItem(RemoveItemEvent event) {

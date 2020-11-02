@@ -1,6 +1,6 @@
 package assignment.events;
 
-import assignment.api.ItemType;
+import assignment.model.ItemType;
 import net.gameslabs.api.Player;
 
 public class GetItemPriceEvent extends ItemEvent {

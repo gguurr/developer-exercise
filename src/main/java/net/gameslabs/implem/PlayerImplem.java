@@ -1,6 +1,6 @@
 package net.gameslabs.implem;
 
-import assignment.api.ItemType;
+import assignment.model.ItemType;
 import net.gameslabs.api.Player;
 
 import java.util.ArrayList;

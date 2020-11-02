@@ -1,11 +1,10 @@
 package net.gameslabs.model;
 
-import assignment.api.ItemType;
-import assignment.api.Ores;
+import assignment.model.ItemType;
+import assignment.model.Ores;
 import assignment.events.*;
 import net.gameslabs.api.Component;
 import net.gameslabs.api.ComponentRegistry;
-import net.gameslabs.api.Event;
 import net.gameslabs.api.Player;
 import net.gameslabs.components.ChartComponent;
 import net.gameslabs.events.GetPlayerLevel;
@@ -42,7 +41,7 @@ public class Assignment {
         registry.sendEvent(getPlayerLevel);
         registry.sendEvent(new MineEvent(mainPlayer, Ores.COAL));
         registry.sendEvent(new BuyEvent(mainPlayer,ItemType.GOLD,10));
-        registry.sendEvent(new GiveCoinsEvent(mainPlayer,2000));
+        registry.sendEvent(new GiveCoinsEvent(mainPlayer,2060));
         registry.sendEvent(new BuyEvent(mainPlayer,ItemType.GOLD,10));
         registry.sendEvent(new BuyEvent(mainPlayer,ItemType.GOLD,10));
 
@@ -54,7 +53,7 @@ public class Assignment {
         if (getLevel(Skill.EXPLORATION) != 1) throw new AssignmentFailed("Exploration XP should be set to level 1");
         if (getLevel(Skill.CONSTRUCTION) != 2) throw new AssignmentFailed("Construction XP should be set to level 2");
         if (getItem(ItemType.COPPER) != 3) throw new AssignmentFailed("Copper should be set to 3");
-        if (getItem(ItemType.COAL) != 1) throw new AssignmentFailed("Coal should be set to 1");
+        if (getItem(ItemType.COAL) != 2) throw new AssignmentFailed("Coal should be set to 1");
         if (getItem(ItemType.GOLD) != 20) throw new AssignmentFailed("Gold should be set to 20");
         if (getCoins() != 20) throw new AssignmentFailed("Coins should be set to 20");
 

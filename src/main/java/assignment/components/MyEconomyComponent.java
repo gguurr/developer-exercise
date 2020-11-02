@@ -1,10 +1,7 @@
 package assignment.components;
 
-import assignment.api.ItemType;
 import assignment.events.*;
-import assignment.model.Inventory;
 import net.gameslabs.api.Component;
-import net.gameslabs.api.Event;
 import net.gameslabs.api.Player;
 import net.gameslabs.events.GetPlayerLevel;
 import net.gameslabs.events.GiveXpEvent;
@@ -17,11 +14,13 @@ public class MyEconomyComponent extends Component {
 
     private Map<Player, Integer> persistence;
 
-
+    public final static int BASE_XP_PER_BUY = 5;
+    public final static int STARTING_COINS = 0;
 
     public MyEconomyComponent() {
         persistence = new HashMap<>();
     }
+
     @Override
     public void onLoad() {
         registerEvent(GetCoinsEvent.class, this::onGetCoins);
@@ -39,7 +38,7 @@ public class MyEconomyComponent extends Component {
         send(takeEvent);
         if(!takeEvent.isCancelled()){
             send(new GiveItemEvent(event.getPlayer(),event.getItem(),event.getAmount()));
-            send(new GiveXpEvent(event.getPlayer(), Skill.ECONOMY,5 * event.getAmount()));
+            send(new GiveXpEvent(event.getPlayer(), Skill.ECONOMY, BASE_XP_PER_BUY * event.getAmount()));
         }
     }
 
@@ -54,7 +53,8 @@ public class MyEconomyComponent extends Component {
     private void onGetPrice(GetItemPriceEvent event) {
         GetPlayerLevel levelEvent = new GetPlayerLevel(event.getPlayer(),Skill.ECONOMY);
         send(levelEvent);
-        event.setPrice((int) Math.max(2, 100 - (levelEvent.getLevel() -1) * 2));
+        event.setPrice(Math.max(event.getItem().getMinValue(), event.getItem().getBaseValue() -
+                levelEvent.getLevel() * event.getItem().getPriceRedaction() + event.getItem().getMinValue()));
     }
 
     private void onGiveCoins(GiveCoinsEvent event) {
@@ -66,7 +66,7 @@ public class MyEconomyComponent extends Component {
     }
 
     private int getCoins(Player player) {
-        return persistence.computeIfAbsent(player, p -> 0);
+        return persistence.computeIfAbsent(player, p -> STARTING_COINS);
     }
 
     @Override
